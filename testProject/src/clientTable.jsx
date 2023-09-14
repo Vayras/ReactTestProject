@@ -1,7 +1,6 @@
 import { useQuery } from '@apollo/client';
 import { GET_CLIENTS } from './graphql';
 import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 function ClientTable() {
