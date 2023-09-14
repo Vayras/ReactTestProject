@@ -5,6 +5,7 @@ import MyVerticallyCenteredModal from './clientModal';
 import ClientTable from './clientTable';
 import { useState } from 'react';
 
+
 function BasicForm() {
     const [client, setClient] = useState("");
     const [modalShow, setModalShow] = useState(false);
@@ -28,6 +29,9 @@ function BasicForm() {
     const handleDataFromModal = (formData) => {
         setData(formData);
     };
+
+   
+
 
     console.log(data, "data.name")
     return (

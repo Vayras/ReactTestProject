@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import { useMutation } from '@apollo/client';
+import { CREATE_CLIENT } from './graphql';
 
 function MyVerticallyCenteredModal(props) {
   const [formData, setFormData] = useState({
-    status: '',
-    source: '',
+    status: 'New',
+    source: 'Website',
     name: '',
     number: '',
     email: '',
@@ -43,12 +45,34 @@ function MyVerticallyCenteredModal(props) {
     setFormData({ ...formData, source: newSource });
   };
 
- 
-  const handleSave = () => {
-    props.onDataReceived(formData); 
-  };
+  const [createClientMutation] = useMutation(CREATE_CLIENT);
 
-  console.log(formData,"formData")
+  const createNewClient = async () => {
+    try {
+      const response = await createClientMutation({
+        variables: {
+          name: formData.name,
+          number: formData.number,
+          email: formData.email,
+          notes: formData.notes,
+          status: formData.status,
+          source: formData.source,
+        },
+      });
+      if (response.data.createClient) {
+        console.log('Client created:', response.data.createClient);
+        props.onHide();
+      } else {
+        console.error('GraphQL errors:', response.errors);
+      }
+    } catch (error) {
+      console.error('Error creating client:', error);
+    }
+  };
+  
+  const handleSave = () => {
+    createNewClient(); 
+  };
 
   return (
     <Modal
@@ -58,67 +82,92 @@ function MyVerticallyCenteredModal(props) {
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Lead
-        </Modal.Title>
+        <Modal.Title id="contained-modal-title-vcenter">Lead</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Form.Group>
-            <Form.Label className=''><strong>Status</strong></Form.Label>
-            <Form.Select className='mb-3' style={{ width: '25%' }} value={formData.status} onSelect={handleStatusChange}>
+            <Form.Label className="">
+              <strong>Status</strong>
+            </Form.Label>
+            <Form.Select
+              className="mb-3"
+              style={{ width: '25%' }}
+              value={formData.status}
+              onChange={handleStatusChange}
+            >
               <option value="New">New</option>
               <option value="Old">Old</option>
             </Form.Select>
           </Form.Group>
 
           <Form.Group>
-            <Form.Label><strong>Source</strong></Form.Label>
-            <Form.Select className='mb-3' style={{ width: '25%' }} value={formData.source} onSelect={handleSourceChange}>
+            <Form.Label>
+              <strong>Source</strong>
+            </Form.Label>
+            <Form.Select
+              className="mb-3"
+              style={{ width: '25%' }}
+              value={formData.source}
+              onChange={handleSourceChange}
+            >
               <option value="Website">Website</option>
               <option value="Other">Other</option>
             </Form.Select>
           </Form.Group>
 
-           <h3 className=''>Lead Details</h3>
+          <h3 className="">Lead Details</h3>
           <hr />
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label><strong>Name</strong></Form.Label>
+            <Form.Label>
+              <strong>Name</strong>
+            </Form.Label>
             <Form.Control
               type="text"
               placeholder="client name"
               autoFocus
               value={formData.name}
-              onChange={handleClientNameChange} // Call the function when input changes
+              onChange={handleClientNameChange}
             />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label><strong>Number</strong></Form.Label>
+            <Form.Label>
+              <strong>Number</strong>
+            </Form.Label>
             <Form.Control
               type="text"
-              placeholder="client name"
+              placeholder="client number"
               autoFocus
               value={formData.number}
-              onChange={handleNumberChange} // Call the function when input changes
+              onChange={handleNumberChange}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label><strong>Email</strong></Form.Label>
+            <Form.Label>
+              <strong>Email</strong>
+            </Form.Label>
             <Form.Control
               type="text"
-              placeholder="client name"
+              placeholder="client email"
               autoFocus
               value={formData.email}
-              onChange={handleEmailChange} // Call the function when input changes
+              onChange={handleEmailChange}
             />
           </Form.Group>
           <Form.Group
             className="mb-3"
             controlId="exampleForm.ControlTextarea1"
           >
-            <Form.Label><strong>Notes</strong></Form.Label>
-            <Form.Control as="textarea" rows={3} value={formData.notes} onChange={handleNotesChange}/>
+            <Form.Label>
+              <strong>Notes</strong>
+            </Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={formData.notes}
+              onChange={handleNotesChange}
+            />
           </Form.Group>
         </Form>
       </Modal.Body>
@@ -130,4 +179,4 @@ function MyVerticallyCenteredModal(props) {
   );
 }
 
-export default MyVerticallyCenteredModal
+export default MyVerticallyCenteredModal;
