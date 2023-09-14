@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useMutation } from '@apollo/client';
 import { CREATE_CLIENT } from './graphql';
+import PropTypes from 'prop-types'; 
 
 function MyVerticallyCenteredModal(props) {
   const [formData, setFormData] = useState({
@@ -178,5 +179,9 @@ function MyVerticallyCenteredModal(props) {
     </Modal>
   );
 }
+
+MyVerticallyCenteredModal.propTypes = {
+  onHide: PropTypes.func.isRequired, // Assuming onClick is a function and is required
+};
 
 export default MyVerticallyCenteredModal;
