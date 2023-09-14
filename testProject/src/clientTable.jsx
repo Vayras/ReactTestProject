@@ -86,7 +86,7 @@ function ClientTable() {
                   <Dropdown.Menu>
                     <Dropdown.Item href="#/action-1" onClick={()=>handleEditClick(client)}>Edit</Dropdown.Item>
                     <Dropdown.Item href="#/action-2" onClick={() => handleViewClick(client)}>View</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3" onClick={() => DeleteClient(client._id)}>Update</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3" onClick={() => DeleteClient(client._id)}>Delete</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </td>
