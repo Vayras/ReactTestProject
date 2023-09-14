@@ -1,81 +1,19 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { useMutation } from '@apollo/client';
-import { CREATE_CLIENT } from './graphql';
+
 import PropTypes from 'prop-types'; 
 
-function MyVerticallyCenteredModal(props) {
+function ViewModal(props) {
   
-  const [formData, setFormData] = useState({
+  const formData = {
     status: 'New',
     source: 'Website',
     name: '',
     number: '',
     email: '',
     notes: '',
-  });
-
- 
-
-  const handleClientNameChange = (e) => {
-    const newName = e.target.value;
-    setFormData({ ...formData, name: newName });
-  };
-
-  const handleNumberChange = (e) => {
-    const newNumber = e.target.value;
-    setFormData({ ...formData, number: newNumber });
-  };
-
-  const handleEmailChange = (e) => {
-    const newEmail = e.target.value;
-    setFormData({ ...formData, email: newEmail });
-  };
-
-  const handleNotesChange = (e) => {
-    const newNotes = e.target.value;
-    setFormData({ ...formData, notes: newNotes });
-  };
-
-  const handleStatusChange = (e) => {
-    const newStatus = e.target.value;
-    setFormData({ ...formData, status: newStatus });
-  };
-
-  const handleSourceChange = (e) => {
-    const newSource = e.target.value;
-    setFormData({ ...formData, source: newSource });
-  };
-
-  const [createClientMutation] = useMutation(CREATE_CLIENT);
-
-  const createNewClient = async () => {
-    try {
-      const response = await createClientMutation({
-        variables: {
-          name: formData.name,
-          number: formData.number,
-          email: formData.email,
-          notes: formData.notes,
-          status: formData.status,
-          source: formData.source,
-        },
-      });
-      if (response.data.createClient) {
-        console.log('Client created:', response.data.createClient);
-        props.onHide();
-      } else {
-        console.error('GraphQL errors:', response.errors);
-      }
-    } catch (error) {
-      console.error('Error creating client:', error);
-    }
-  };
-  
-const handleSave = () => {
-    createNewClient(); 
   };
 
   console.log(formData ,"formData")
@@ -100,7 +38,7 @@ const handleSave = () => {
               className="mb-3"
               style={{ width: '25%' }}
               value={formData.status}
-              onChange={handleStatusChange}
+    
             >
               <option value="New">New</option>
               <option value="Old">Old</option>
@@ -115,7 +53,7 @@ const handleSave = () => {
               className="mb-3"
               style={{ width: '25%' }}
               value={formData.source}
-              onChange={handleSourceChange}
+ 
             >
               <option value="Website">Website</option>
               <option value="Other">Other</option>
@@ -133,7 +71,7 @@ const handleSave = () => {
               placeholder="client name"
               autoFocus
               value={formData.name}
-              onChange={handleClientNameChange}
+         
             />
           </Form.Group>
 
@@ -146,7 +84,7 @@ const handleSave = () => {
               placeholder="client number"
               autoFocus
               value={formData.number}
-              onChange={handleNumberChange}
+
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -158,7 +96,7 @@ const handleSave = () => {
               placeholder="client email"
               autoFocus
               value={formData.email}
-              onChange={handleEmailChange}
+  
             />
           </Form.Group>
           <Form.Group
@@ -172,21 +110,21 @@ const handleSave = () => {
               as="textarea"
               rows={3}
               value={formData.notes}
-              onChange={handleNotesChange}
+       
             />
           </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={handleSave}>Save</Button>
+  
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
   );
 }
 
-MyVerticallyCenteredModal.propTypes = {
+ViewModal.propTypes = {
   onHide: PropTypes.func.isRequired, // Assuming onClick is a function and is required
 };
 
-export default MyVerticallyCenteredModal;
+export default ViewModal;
