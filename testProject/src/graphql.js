@@ -43,3 +43,37 @@ export const CREATE_CLIENT = gql`
   }
 `;
 
+export const UPDATE_CLIENT = gql`
+  mutation UpdateClient{
+    updateClient(_id:$_id , input: {
+      name: $name
+      number: $number
+      email: $email
+      notes: $notes
+      status: $status
+      source: $source
+    }) {
+        _id
+        name
+        email
+        number
+        source
+        status
+        notes
+    }
+  }
+`;
+
+export const DELETE_CLIENT = gql`
+  mutation DeleteClient($_id: ID!) {
+    deleteClient(_id: $_id) {
+      _id
+      name
+      email
+      number
+      source
+      status
+      notes
+    }
+  }
+`;
