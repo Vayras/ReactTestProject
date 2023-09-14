@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client';
 import { GET_CLIENTS } from './graphql';
 import Table from 'react-bootstrap/Table';
 import Dropdown from 'react-bootstrap/Dropdown';
+import Container from 'react-bootstrap/esm/Container';
 
 function ClientTable() {
   const { loading, error, data } = useQuery(GET_CLIENTS);
@@ -31,7 +32,7 @@ function ClientTable() {
 
 
   return (
-    <div>
+    <Container >
       <h2>Clients</h2>
       <Table striped bordered hover>
         <thead>
@@ -49,16 +50,15 @@ function ClientTable() {
                 <td key={field}>{client[field]}</td>
               ))}
               <td>
-                {/* Add your button here */}
                 <Dropdown>
                   <Dropdown.Toggle variant="success" id="dropdown-basic">
                     Dropdown Button
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1" value="Edit" onClick={(client)=>handleEditClick(client)}>Edit</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2" onClick={(client ,e)=>handleViewClick(client,e)}>View</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3" onClick={(client ,e)=>handleButtonClick(client,e)}>Update</Dropdown.Item>
+                    <Dropdown.Item href="#/action-1" onClick={()=>handleEditClick(client)}>Edit</Dropdown.Item>
+                    <Dropdown.Item href="#/action-2" onClick={()=>handleViewClick(client)}>View</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3" onClick={()=>handleButtonClick(client)}>Update</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </td>
@@ -66,7 +66,7 @@ function ClientTable() {
           ))}
         </tbody>
       </Table>
-    </div>
+    </Container>
   );
 }
 
